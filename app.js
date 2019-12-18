@@ -13,20 +13,20 @@ const main = async () => {
 
   const data = await pdf(dataBuffer)
 
-  // number of pages
-  console.log(data.numpages);
-  // number of rendered pages
-  console.log(data.numrender);
-  // PDF info
-  console.log(data.info);
-  // PDF metadata
-  console.log(data.metadata);
-  // PDF.js version
-  // check https://mozilla.github.io/pdf.js/getting_started/
-  console.log(data.version);
-  // PDF text
-  //console.log(data.text); 
-
+  const jsonKeys = ['code', 'name', 'kana', 'shortName']
+  fs.writeFileSync('./output/jicfs.txt', data.text, { mode: 0o755 });
+  const lines = data.text.split(/\n/)
+  const json = _.chain(lines)
+    .map(l => parseRow(l))
+    .filter(l => l.length > 0)
+    .map(l => ({
+      [jsonKeys[0]]: l[0],
+      [jsonKeys[1]]: l[1],
+      [jsonKeys[2]]: l[2],
+      [jsonKeys[3]]: l[3],
+    })).value()
+  const jsonString = '[' + _.reduce(json, (lines, l) => lines + `${JSON.stringify(l)},\n`, '') + ']'
+  fs.writeFileSync('./output/jicfs.json', jsonString);
 
 }
 

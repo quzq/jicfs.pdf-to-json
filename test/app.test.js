@@ -17,7 +17,7 @@ describe('app.test.js', () => {
       "9901   その他輸入商品ｿﾉﾀﾕﾆﾕｳｼﾖｳﾋﾝ   その他輸入商品",
       "990199  その他輸入商品不明ｿﾉﾀﾕﾆﾕｳｼﾖｳﾋﾝﾌﾒ  その他輸入商品不明 ",
     ]
-    it(`case 1`, () => {
+    it(`case 1`, async () => {
       const val = app.parseRow(datas[0])
       expect(val.length).toBe(4)
       expect(val[0]).toBe('569859')
